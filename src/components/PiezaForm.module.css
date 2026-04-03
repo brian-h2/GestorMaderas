@@ -1,0 +1,141 @@
+.card {
+  background: #fbf7f1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 28px 32px;
+  box-shadow: 0 2px 16px rgba(92, 61, 30, 0.08);
+  margin-bottom: 36px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 1fr 1fr;
+  gap: 14px 18px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--wood);
+}
+
+.span2 { grid-column: span 2; }
+
+.field input,
+.field select {
+  background: white;
+  border: 1.5px solid var(--border);
+  border-radius: 7px;
+  padding: 9px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(212, 128, 26, 0.12);
+}
+
+/* Canto */
+.cantoGroup {
+  background: var(--cream);
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  padding: 16px 20px 12px;
+  grid-column: 1 / -1;
+}
+
+.cantoLabel {
+  font-family: 'Bebas Neue', cursive;
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: var(--wood);
+  display: block;
+  margin-bottom: 12px;
+}
+
+.cantoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px 18px;
+}
+
+.checkLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.checkLabel input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* Actions */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  justify-content: flex-end;
+}
+
+.btnPrimary,
+.btnSecondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  transition: all 0.18s;
+}
+
+.btnPrimary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 2px 10px rgba(212, 128, 26, 0.3);
+}
+
+.btnPrimary:hover {
+  background: var(--accent-light);
+  transform: translateY(-1px);
+}
+
+.btnSecondary {
+  background: white;
+  color: var(--wood);
+  border: 1.5px solid var(--border);
+}
+
+.btnSecondary:hover {
+  background: var(--cream);
+  border-color: var(--wood-light);
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: 1fr 1fr; }
+  .span2 { grid-column: span 1; }
+  .cantoGrid { grid-template-columns: 1fr 1fr; }
+}
