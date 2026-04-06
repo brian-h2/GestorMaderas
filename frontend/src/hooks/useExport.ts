@@ -6,22 +6,10 @@ const BACKEND = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:5055/inse
 export type ExportStatus = 'idle' | 'loading' | 'success' | 'error';
 
 export function useExport() {
-  const [archivo, setArchivo] = useState<File | null>(null);
   const [status, setStatus] = useState<ExportStatus>('idle');
   const [mensaje, setMensaje] = useState('');
 
-  const cargarArchivo = useCallback((file: File) => {
-    setArchivo(file);
-    setMensaje(`📂 ${file.name} cargado`);
-    setStatus('idle');
-  }, []);
-
   const exportar = useCallback(async (piezas: Pieza[]) => {
-    if (!archivo) {
-      setMensaje('⚠ Cargá primero el Excel original.');
-      setStatus('error');
-      return;
-    }
     if (piezas.length === 0) {
       setMensaje('⚠ No hay piezas para exportar.');
       setStatus('error');
@@ -46,7 +34,6 @@ export function useExport() {
     }));
 
     const formData = new FormData();
-    formData.append('archivo', archivo, archivo.name);
     formData.append('filas', JSON.stringify(filasBackend));
 
     try {
@@ -57,18 +44,18 @@ export function useExport() {
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = archivo.name;
+      a.download = "Plantilla_de_pedidos_Maderas_Caroya.xlsx";
       a.click();
       URL.revokeObjectURL(url);
 
       setStatus('success');
-      setMensaje(`✔ Descargado: ${archivo.name}`);
+      setMensaje('✔ Excel descargado con éxito');
     } catch (err) {
       setStatus('error');
       setMensaje('❌ No se pudo conectar al servidor.');
       console.error(err);
     }
-  }, [archivo]);
+  }, []);
 
-  return { archivo, cargarArchivo, exportar, status, mensaje };
+  return { exportar, status, mensaje };
 }

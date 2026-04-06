@@ -10,7 +10,7 @@ import './App.css';
 
 function App() {
   const { piezas, agregarPieza, eliminarPieza } = usePiezas();
-  const { archivo, cargarArchivo, exportar, mensaje, status } = useExport();
+  const { exportar, mensaje, status } = useExport();
   const { toast, showToast } = useToast();
 
   React.useEffect(() => {
@@ -39,11 +39,7 @@ function App() {
         <h2 className="section-title">Listado de Piezas</h2>
         <PiezasTable piezas={piezas} onEliminar={eliminarPieza} />
 
-        <ExportBar
-          fileName={archivo?.name ?? null}
-          onCargar={cargarArchivo}
-          onExportar={handleExportar}
-        />
+        <ExportBar onExportar={handleExportar} />
       </main>
 
       <Toast message={toast.message} type={toast.type} visible={toast.visible} />

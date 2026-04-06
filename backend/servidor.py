@@ -19,10 +19,6 @@ def health():
 
 @app.route("/insertar", methods=["POST"])
 def insertar():
-    if "archivo" not in request.files:
-        return jsonify({"error": "No se recibió el archivo"}), 400
-
-    archivo = request.files["archivo"]
     filas_json = request.form.get("filas", "[]")
 
     try:
@@ -30,14 +26,23 @@ def insertar():
     except json.JSONDecodeError:
         return jsonify({"error": "JSON de filas inválido"}), 400
 
-    contenido = archivo.read()
-
+    plantilla_path = os.path.join(os.path.dirname(__file__), "plantilla.xlsx")
+    
     try:
-        wb = load_workbook(filename=io.BytesIO(contenido))
+        if os.path.exists(plantilla_path):
+            wb = load_workbook(filename=plantilla_path)
+            ws = wb.active
+        else:
+            from openpyxl import Workbook
+            wb = Workbook()
+            ws = wb.active
+            ws.title = "Pedidos"
+            # Set up basic headers if creating from scratch
+            headers = ["Nombre Pieza", "Material", "Largo", "Ancho", "Cantidad", "Veta", "Canto L. Sup", "Canto L. Inf", "Canto Izq.", "Canto Der.", "Notas"]
+            for col, header in enumerate(headers, start=1):
+                ws.cell(row=10, column=col, value=header)
     except Exception as e:
-        return jsonify({"error": f"No se pudo leer el archivo Excel: {str(e)}"}), 400
-
-    ws = wb.active
+        return jsonify({"error": f"No se pudo inicializar el Excel: {str(e)}"}), 500
 
     if len(ws._images) == 0:
         img = XLImage("logo.png")
@@ -70,7 +75,7 @@ def insertar():
     wb.save(output)
     output.seek(0)
 
-    nombre_salida = archivo.filename or "Plantilla_de_pedidos_Maderas_Caroya.xlsx"
+    nombre_salida = "Plantilla_de_pedidos_Maderas_Caroya.xlsx"
     return send_file(
         output,
         mimetype="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
