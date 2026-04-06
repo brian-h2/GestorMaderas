@@ -139,3 +139,30 @@
   .span2 { grid-column: span 1; }
   .cantoGrid { grid-template-columns: 1fr 1fr; }
 }
+
+@media (max-width: 600px) {
+  .card {
+    padding: 20px 16px;
+  }
+  .grid { 
+    grid-template-columns: 1fr; 
+    gap: 12px;
+  }
+  .span2 { grid-column: span 1; }
+  .cantoGrid { 
+    grid-template-columns: 1fr; 
+    gap: 10px;
+  }
+  .cantoGroup {
+    padding: 14px 16px 12px;
+  }
+  .actions {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .btnPrimary, .btnSecondary {
+    width: 100%;
+    justify-content: center;
+  }
+}

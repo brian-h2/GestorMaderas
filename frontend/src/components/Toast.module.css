@@ -23,3 +23,12 @@
 .warning  { background: #b7791f; }
 .error    { background: #c0392b; }
 .info     { background: #5c3d1e; }
+
+@media (max-width: 600px) {
+  .toast {
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    text-align: center;
+  }
+}

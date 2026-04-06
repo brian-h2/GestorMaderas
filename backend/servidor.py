@@ -2,6 +2,8 @@ from flask import Flask, request, send_file, jsonify
 from flask_cors import CORS
 from openpyxl import load_workbook
 import io, os, json
+from openpyxl.drawing.image import Image as XLImage
+
 
 app = Flask(__name__)
 
@@ -36,6 +38,11 @@ def insertar():
         return jsonify({"error": f"No se pudo leer el archivo Excel: {str(e)}"}), 400
 
     ws = wb.active
+
+    if len(ws._images) == 0:
+        img = XLImage("logo.png")
+        img.anchor = "A1"  # ajustá la celda según tu plantilla
+        ws.add_image(img)
 
     # Primera fila vacía a partir de la 11
     start_row = 11

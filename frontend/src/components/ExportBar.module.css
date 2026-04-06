@@ -56,3 +56,25 @@
   background: #4a9455;
   transform: translateY(-1px);
 }
+
+@media (max-width: 600px) {
+  .bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .left {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .uploadBtn {
+    width: 100%;
+    text-align: center;
+  }
+  .fileName {
+    text-align: center;
+  }
+  .btnSuccess {
+    width: 100%;
+    justify-content: center;
+  }
+}
