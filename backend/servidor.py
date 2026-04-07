@@ -45,9 +45,14 @@ def insertar():
         return jsonify({"error": f"No se pudo inicializar el Excel: {str(e)}"}), 500
 
     if len(ws._images) == 0:
-        img = XLImage("logo.png")
-        img.anchor = "A1"  # ajustá la celda según tu plantilla
-        ws.add_image(img)
+        logo_path = os.path.join(os.path.dirname(__file__), "logo.png")
+        if os.path.exists(logo_path):
+            try:
+                img = XLImage(logo_path)
+                img.anchor = "A1"  # ajustá la celda según tu plantilla
+                ws.add_image(img)
+            except Exception as e:
+                print(f"Error al agregar la imagen: {e}")
 
     # Primera fila vacía a partir de la 11
     start_row = 11
