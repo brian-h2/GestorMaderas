@@ -26,10 +26,10 @@ export function useExport() {
       ancho: p.ancho,
       cantidad: p.cantidad || '1',
       veta: p.veta,
-      canto_largo_sup: p.cantoLargoSup ? 'Sí' : '',
-      canto_largo_inf: p.cantoLargoInf ? 'Sí' : '',
-      canto_izq: p.cantoIzq ? 'Sí' : '',
-      canto_der: p.cantoDer ? 'Sí' : '',
+      canto_largo_sup: p.cantoLargoSup ? '1' : '0',
+      canto_largo_inf: p.cantoLargoInf ? '1' : '0',
+      canto_izq: p.cantoIzq ? '1' : '0',
+      canto_der: p.cantoDer ? '1' : '0',
       notas: p.notas,
     }));
 

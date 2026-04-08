@@ -6,12 +6,14 @@ import { Toast } from './components/Toast';
 import { usePiezas } from './hooks/usePiezas';
 import { useExport } from './hooks/useExport';
 import { useToast } from './hooks/useToast';
+import { Pieza, PiezaFormData } from './types';
 import './App.css';
 
 function App() {
-  const { piezas, agregarPieza, eliminarPieza } = usePiezas();
+  const { piezas, agregarPieza, eliminarPieza, editarPieza } = usePiezas();
   const { exportar, mensaje, status } = useExport();
   const { toast, showToast } = useToast();
+  const [piezaEditando, setPiezaEditando] = React.useState<Pieza | null>(null);
 
   React.useEffect(() => {
     if (mensaje) {
@@ -25,6 +27,20 @@ function App() {
     await exportar(piezas);
   };
 
+  const handleEditarRequest = (pieza: Pieza) => {
+    setPiezaEditando(pieza);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleFormSubmit = (data: PiezaFormData) => {
+    if (piezaEditando) {
+      editarPieza({ ...data, id: piezaEditando.id });
+      setPiezaEditando(null);
+    } else {
+      agregarPieza(data);
+    }
+  };
+
   return (
     <>
       <header className="app-header">
@@ -33,11 +49,18 @@ function App() {
       </header>
 
       <main className="app-main">
-        <h2 className="section-title">Nueva Pieza</h2>
-        <PiezaForm onAgregar={agregarPieza} onToast={showToast} />
+        <h2 className="section-title">{piezaEditando ? 'Editar Pieza' : 'Nueva Pieza'}</h2>
+        <PiezaForm
+          piezaEditando={piezaEditando}
+          onSubmit={handleFormSubmit}
+          onCancelarEdicion={() => setPiezaEditando(null)}
+          onToast={showToast}
+        />
 
         <h2 className="section-title">Listado de Piezas</h2>
-        <PiezasTable piezas={piezas} onEliminar={eliminarPieza} />
+        <PiezasTable piezas={piezas} onEliminar={eliminarPieza} onEditar={handleEditarRequest} />
+
+
 
         <ExportBar onExportar={handleExportar} />
       </main>

@@ -5,6 +5,7 @@ import styles from './PiezasTable.module.css';
 interface Props {
   piezas: Pieza[];
   onEliminar: (id: string) => void;
+  onEditar: (pieza: Pieza) => void;
 }
 
 const Check: React.FC<{ value: boolean }> = ({ value }) =>
@@ -12,7 +13,7 @@ const Check: React.FC<{ value: boolean }> = ({ value }) =>
     ? <span className={styles.checkOn}>✔</span>
     : <span className={styles.checkOff}>—</span>;
 
-export const PiezasTable: React.FC<Props> = ({ piezas, onEliminar }) => (
+export const PiezasTable: React.FC<Props> = ({ piezas, onEliminar, onEditar }) => (
   <div className={styles.wrapper}>
     <div className={styles.header}>
       <span>Piezas del Pedido</span>
@@ -61,7 +62,13 @@ export const PiezasTable: React.FC<Props> = ({ piezas, onEliminar }) => (
                 <td><Check value={p.cantoIzq} /></td>
                 <td><Check value={p.cantoDer} /></td>
                 <td>{p.notas}</td>
+
                 <td>
+                  <button
+                    className={styles.btnEdit}
+                    onClick={() => onEditar(p)}
+                    title="Editar"
+                  >✏</button>
                   <button
                     className={styles.btnDelete}
                     onClick={() => onEliminar(p.id)}

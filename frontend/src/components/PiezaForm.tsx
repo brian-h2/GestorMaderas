@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { PiezaFormData, VETA_OPTIONS } from '../types';
+import { Pieza, PiezaFormData, VETA_OPTIONS } from '../types';
 import styles from './PiezaForm.module.css';
 
 const EMPTY: PiezaFormData = {
@@ -11,28 +11,44 @@ const EMPTY: PiezaFormData = {
 };
 
 interface Props {
-  onAgregar: (data: PiezaFormData) => void;
+  piezaEditando?: Pieza | null;
+  onSubmit: (data: PiezaFormData) => void;
+  onCancelarEdicion?: () => void;
   onToast: (msg: string, type?: 'success' | 'warning' | 'error' | 'info') => void;
 }
 
-export const PiezaForm: React.FC<Props> = ({ onAgregar, onToast }) => {
+export const PiezaForm: React.FC<Props> = ({ piezaEditando, onSubmit, onCancelarEdicion, onToast }) => {
   const [form, setForm] = useState<PiezaFormData>(EMPTY);
 
   const set = useCallback(<K extends keyof PiezaFormData>(key: K, value: PiezaFormData[K]) => {
     setForm(prev => ({ ...prev, [key]: value }));
   }, []);
 
-  const limpiar = useCallback(() => setForm(EMPTY), []);
+  useEffect(() => {
+    if (piezaEditando) {
+      const { id, ...data } = piezaEditando;
+      setForm(data);
+    } else {
+      setForm(EMPTY);
+    }
+  }, [piezaEditando]);
+
+  const limpiar = useCallback(() => {
+    setForm(EMPTY);
+    if (onCancelarEdicion) onCancelarEdicion();
+  }, [onCancelarEdicion]);
 
   const agregar = useCallback(() => {
     if (!form.nombre.trim()) {
       onToast('⚠ Ingresá al menos el nombre de la pieza.', 'warning');
       return;
     }
-    onAgregar(form);
-    onToast('✔ Pieza agregada correctamente', 'success');
-    limpiar();
-  }, [form, onAgregar, onToast, limpiar]);
+    onSubmit(form);
+    onToast(piezaEditando ? '✔ Pieza editada correctamente' : '✔ Pieza agregada correctamente', 'success');
+    if (!piezaEditando) {
+      limpiar();
+    }
+  }, [form, onSubmit, onToast, limpiar, piezaEditando]);
 
   // Ctrl+Enter
   useEffect(() => {
@@ -141,8 +157,12 @@ export const PiezaForm: React.FC<Props> = ({ onAgregar, onToast }) => {
       </div>
 
       <div className={styles.actions}>
-        <button className={styles.btnSecondary} onClick={limpiar}>↺ Limpiar</button>
-        <button className={styles.btnPrimary} onClick={agregar}>+ Agregar Pieza</button>
+        <button className={styles.btnSecondary} onClick={limpiar}>
+          {piezaEditando ? '✖ Cancelar Edición' : '↺ Limpiar'}
+        </button>
+        <button className={styles.btnPrimary} onClick={agregar}>
+          {piezaEditando ? '💾 Guardar Cambios' : '+ Agregar Pieza'}
+        </button>
       </div>
     </div>
   );

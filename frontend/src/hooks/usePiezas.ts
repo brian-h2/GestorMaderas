@@ -13,8 +13,12 @@ export function usePiezas() {
   const eliminarPieza = useCallback((id: string) => {
     setPiezas(prev => prev.filter(p => p.id !== id));
   }, []);
+  
+  const editarPieza = useCallback((pieza: Pieza) => {
+    setPiezas(prev => prev.map(p => p.id === pieza.id ? pieza : p));
+  }, []);
 
   const limpiarPiezas = useCallback(() => setPiezas([]), []);
 
-  return { piezas, agregarPieza, eliminarPieza, limpiarPiezas };
+  return { piezas, agregarPieza, eliminarPieza, editarPieza, limpiarPiezas };
 }
