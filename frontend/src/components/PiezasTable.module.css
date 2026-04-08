@@ -67,23 +67,47 @@
 }
 
 @keyframes rowIn {
-  from { opacity: 0; transform: translateX(-8px); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
-.table tbody tr:nth-child(even) { background: #faf6f0; }
-.table tbody tr:hover           { background: #fff3e2; }
+.table tbody tr:nth-child(even) {
+  background: #faf6f0;
+}
+
+.table tbody tr:hover {
+  background: #fff3e2;
+}
 
 .table tbody td {
   padding: 9px 12px;
   vertical-align: middle;
 }
 
-.num  { color: var(--wood-light); font-weight: 600; }
-.bold { font-weight: 600; }
+.num {
+  color: var(--wood-light);
+  font-weight: 600;
+}
 
-.checkOn  { color: var(--green); font-size: 15px; }
-.checkOff { color: #bbb; }
+.bold {
+  font-weight: 600;
+}
+
+.checkOn {
+  color: var(--green);
+  font-size: 15px;
+}
+
+.checkOff {
+  color: #bbb;
+}
 
 .empty {
   text-align: center;
@@ -103,13 +127,28 @@
   border: none;
   cursor: pointer;
   color: #c0392b;
-  font-size: 15px;
+  font-size: 20px;
   padding: 3px 6px;
-  border-radius: 4px;
   transition: background 0.15s;
 }
 
-.btnDelete:hover { background: #fdecea; }
+.btnDelete:hover {
+  background: #fdecea;
+}
+
+.btnEdit {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #c0392b;
+  font-size: 20px;
+  padding: 1px 3px;
+  transition: background 0.15s;
+}
+
+.btnEdit:hover {
+  background: #fdecea;
+}
 
 @media (max-width: 600px) {
   .header {
@@ -118,6 +157,7 @@
     gap: 8px;
     align-items: flex-start;
   }
+
   .empty {
     padding: 24px 16px !important;
   }
